@@ -9,8 +9,11 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@layout/*": ["./src/layouts/*"],
+      "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@layouts/*": ["./src/layouts/*"],
       "@lib/*": ["./src/lib/*"],
+      "@stores/*": ["./src/stores/*"],
       "@ui/*": ["./src/components/ui/*"]
     },
 

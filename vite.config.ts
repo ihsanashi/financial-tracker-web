@@ -1,3 +1,4 @@
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import { defineConfig } from 'vite';
@@ -5,12 +6,15 @@ import { defineConfig } from 'vite';
 // https://vite.dev/config/
 export default defineConfig({
   base: '/financial-tracker-web/',
-  plugins: [react()],
+  plugins: [react(), TanStackRouterVite()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '@layout': path.resolve(__dirname, './src/layouts'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@hooks': path.resolve(__dirname, './src/hooks'),
+      '@layouts': path.resolve(__dirname, './src/layouts'),
       '@lib': path.resolve(__dirname, './src/lib'),
+      '@stores': path.resolve(__dirname, './src/stores'),
       '@ui': path.resolve(__dirname, './src/components/ui'),
     },
   },
