@@ -9,8 +9,16 @@
   "jsxSingleQuote": false,
   "bracketSameLine": false,
   "endOfLine": "lf",
-  "importOrder": ["^@layout/(.*)$", "^@lib/(.*)$", "^@components/(.*)$", "^@ui/(.*)$", "^[./]"],
+  "importOrder": [
+    "^@layouts/(.*)$",
+    "^@lib/(.*)$",
+    "^@hooks/(.*)$",
+    "^@stores/(.*)$",
+    "^@components/(.*)$",
+    "^@ui/(.*)$",
+    "^[./]"
+  ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
-  "plugins": ["prettier-plugin-tailwindcss", "@trivago/prettier-plugin-sort-imports"]
+  "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"]
 }
