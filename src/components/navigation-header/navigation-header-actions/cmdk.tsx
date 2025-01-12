@@ -1,7 +1,7 @@
-import { Button } from '@/components/ui/button';
 import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
+import { Button } from '@ui/button';
 import {
   CommandDialog,
   CommandEmpty,
