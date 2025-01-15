@@ -1,5 +1,7 @@
 import { Link } from '@tanstack/react-router';
 
+import { commonLinkStyle } from '@lib/utils';
+
 import { Logo } from './logo';
 
 export const Links = () => {
@@ -7,22 +9,13 @@ export const Links = () => {
     <div className="mr-4 hidden md:flex">
       <Logo to="/" />
       <nav className="flex items-center gap-4 text-sm">
-        <Link
-          className="text-zinc-700 dark:text-zinc-300 [&.active]:text-zinc-950 dark:[&.active]:text-white"
-          to="/accounts"
-        >
+        <Link className={commonLinkStyle} to="/accounts">
           Accounts
         </Link>
-        <Link
-          className="text-zinc-700 dark:text-zinc-300 [&.active]:text-zinc-950 dark:[&.active]:text-white"
-          to="/transactions"
-        >
+        <Link className={commonLinkStyle} to="/transactions">
           Transactions
         </Link>
-        <Link
-          className="text-zinc-700 dark:text-zinc-300 [&.active]:text-zinc-950 dark:[&.active]:text-white"
-          to="/preferences"
-        >
+        <Link className={commonLinkStyle} to="/preferences">
           Preferences
         </Link>
       </nav>
