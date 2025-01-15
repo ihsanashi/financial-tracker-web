@@ -44,7 +44,7 @@ export function RegistrationForm({ className, ...props }: React.ComponentPropsWi
                 />
               </div>
               <Button type="submit" className="w-full">
-                Login
+                Register
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
