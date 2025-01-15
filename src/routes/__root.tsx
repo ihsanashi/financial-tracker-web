@@ -1,19 +1,14 @@
-import { NavigationHeader } from '@/components/navigation-header';
-import { Outlet, createRootRoute } from '@tanstack/react-router';
+import { User } from '@supabase/supabase-js';
+import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 
-// navigation menu
-// left side consists of the pages
-// right side consists of the command menu, currency and theme
+interface RouterContext {
+  user: User;
+}
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <>
-      <NavigationHeader.Root>
-        <NavigationHeader.Links />
-        <NavigationHeader.Actions />
-      </NavigationHeader.Root>
-
       <Outlet />
       <TanStackRouterDevtools />
     </>
