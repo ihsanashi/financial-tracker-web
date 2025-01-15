@@ -8,7 +8,7 @@ export const Route = createLazyFileRoute('/(public)/_layout/auth/forgot-password
 
 function RouteComponent() {
   return (
-    <main className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+    <main className="flex min-h-svh w-full items-center justify-center bg-zinc-100 p-6 dark:bg-black/95 md:p-10">
       <div className="w-full max-w-sm">
         <ForgotPasswordForm />
       </div>
