@@ -2,7 +2,7 @@ import { Session, User } from '@supabase/supabase-js';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-type UserStore = {
+type AuthStore = {
   session: Session | null;
   user: User | null;
   setSession: (session: Session | null) => void;
@@ -10,8 +10,8 @@ type UserStore = {
   clearUser: () => void;
 };
 
-export const useUserStore = create(
-  persist<UserStore>(
+export const useAuthStore = create(
+  persist<AuthStore>(
     (set) => ({
       session: null,
       user: null,
@@ -20,7 +20,7 @@ export const useUserStore = create(
       clearUser: () => set({ session: null, user: null }),
     }),
     {
-      name: 'user',
+      name: `${import.meta.env.VITE_BASE_LOCAL_STORAGE_KEY}-auth`,
     }
   )
 );
