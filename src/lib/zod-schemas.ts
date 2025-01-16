@@ -23,3 +23,16 @@ export const registrationSchema = z
   });
 
 export type RegistrationFormValues = z.infer<typeof registrationSchema>;
+
+export const loginSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters long'),
+});
+
+export type LoginFormValues = z.infer<typeof loginSchema>;
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().email('Invalid email address'),
+});
+
+export type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
