@@ -1,13 +1,42 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ComponentPropsWithoutRef } from 'react';
+import { useForm } from 'react-hook-form';
+
+import { supabaseClient } from '@lib/supabase-client';
 import { cn } from '@lib/utils';
+import { ForgotPasswordFormValues, forgotPasswordSchema } from '@lib/zod-schemas';
 
 import { Button } from '@ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@ui/card';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@ui/form';
 import { Input } from '@ui/input';
-import { Label } from '@ui/label';
 
-export function ForgotPasswordForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+export function ForgotPasswordForm({ className, ...props }: ComponentPropsWithoutRef<'div'>) {
+  const form = useForm<ForgotPasswordFormValues>({
+    resolver: zodResolver(forgotPasswordSchema),
+  });
+
+  const handleForgotPassword = async (form: ForgotPasswordFormValues) => {
+    try {
+      const { data, error } = await supabaseClient.auth.resetPasswordForEmail(form.email, {
+        redirectTo: `${window.origin}/${import.meta.env.VITE_SUPABASE_POST_FORGOT_PASSWORD_REDIRECT_PATH}`,
+      });
+
+      if (data) {
+        console.log('Data: ', data);
+      } else {
+        console.error('Error from Supabase', error);
+      }
+    } catch (error) {
+      console.error('Unexpected error: ', error);
+    }
+  };
+
   return (
-    <div className={cn('flex flex-col gap-6', className)} {...props}>
+    <div
+      className={cn('flex flex-col gap-6', className)}
+      {...props}
+    >
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Forgot your password?</CardTitle>
@@ -16,17 +45,37 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="m@example.com" required />
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleForgotPassword)}>
+              <div className="flex flex-col gap-6">
+                <div className="grid gap-2">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="email"
+                            placeholder="me@example.com"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  className="w-full"
+                >
+                  Submit
+                </Button>
               </div>
-              <Button type="submit" className="w-full">
-                Submit
-              </Button>
-            </div>
-          </form>
+            </form>
+          </Form>
         </CardContent>
       </Card>
     </div>
