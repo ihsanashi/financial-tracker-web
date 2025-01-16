@@ -8,6 +8,7 @@
   "arrowParens": "always",
   "jsxSingleQuote": false,
   "bracketSameLine": false,
+  "singleAttributePerLine": true,
   "endOfLine": "lf",
   "importOrder": [
     "^@layouts/(.*)$",
