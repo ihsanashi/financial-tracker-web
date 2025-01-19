@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from '@tanstack/react-router';
-import { ComponentPropsWithoutRef } from 'react';
+import { Loader } from 'lucide-react';
+import { ComponentPropsWithoutRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { supabaseClient } from '@lib/supabase-client';
@@ -14,11 +15,15 @@ import { Input } from '@ui/input';
 import { PasswordInput } from '@ui/password-input';
 
 export function RegistrationForm({ className, ...props }: ComponentPropsWithoutRef<'div'>) {
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<RegistrationFormValues>({
     resolver: zodResolver(registrationSchema),
   });
 
   const handleRegistration = async (form: RegistrationFormValues) => {
+    setLoading(true);
+
     try {
       const { data, error } = await supabaseClient.auth.signUp({
         email: form.email,
@@ -36,6 +41,8 @@ export function RegistrationForm({ className, ...props }: ComponentPropsWithoutR
     } catch (error) {
       console.error('Unexpected error', error);
     }
+
+    setLoading(false);
   };
 
   return (
@@ -112,9 +119,11 @@ export function RegistrationForm({ className, ...props }: ComponentPropsWithoutR
                   />
                 </div>
                 <Button
-                  type="submit"
                   className="w-full"
+                  disabled={loading}
+                  type="submit"
                 >
+                  {loading && <Loader className="animate-spin" />}
                   Register
                 </Button>
               </div>

@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ComponentPropsWithoutRef } from 'react';
+import { Loader } from 'lucide-react';
+import { ComponentPropsWithoutRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { supabaseClient } from '@lib/supabase-client';
@@ -12,11 +13,15 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@ui/input';
 
 export function ForgotPasswordForm({ className, ...props }: ComponentPropsWithoutRef<'div'>) {
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema),
   });
 
   const handleForgotPassword = async (form: ForgotPasswordFormValues) => {
+    setLoading(true);
+
     try {
       const { data, error } = await supabaseClient.auth.resetPasswordForEmail(form.email, {
         redirectTo: `${window.origin}/${import.meta.env.VITE_SUPABASE_POST_FORGOT_PASSWORD_REDIRECT_PATH}`,
@@ -30,6 +35,8 @@ export function ForgotPasswordForm({ className, ...props }: ComponentPropsWithou
     } catch (error) {
       console.error('Unexpected error: ', error);
     }
+
+    setLoading(false);
   };
 
   return (
@@ -68,9 +75,11 @@ export function ForgotPasswordForm({ className, ...props }: ComponentPropsWithou
                   />
                 </div>
                 <Button
-                  type="submit"
                   className="w-full"
+                  disabled={loading}
+                  type="submit"
                 >
+                  {loading && <Loader className="animate-spin" />}
                   Submit
                 </Button>
               </div>
