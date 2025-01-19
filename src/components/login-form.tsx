@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Link, redirect } from '@tanstack/react-router';
-import { ComponentPropsWithoutRef } from 'react';
+import { Link, useRouter } from '@tanstack/react-router';
+import { Loader } from 'lucide-react';
+import { ComponentPropsWithoutRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { supabaseClient } from '@lib/supabase-client';
@@ -16,11 +17,16 @@ import { Input } from '@ui/input';
 import { PasswordInput } from '@ui/password-input';
 
 export function LoginForm({ className, ...props }: ComponentPropsWithoutRef<'div'>) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
 
   const handleLogin = async (form: LoginFormValues) => {
+    setLoading(true);
+
     try {
       const { data, error } = await supabaseClient.auth.signInWithPassword({
         email: form.email,
@@ -33,7 +39,7 @@ export function LoginForm({ className, ...props }: ComponentPropsWithoutRef<'div
         useAuthStore.getState().setSession(data.session);
         useAuthStore.getState().setUser(data.user);
 
-        redirect({
+        router.navigate({
           to: '/',
         });
       } else {
@@ -42,6 +48,8 @@ export function LoginForm({ className, ...props }: ComponentPropsWithoutRef<'div
     } catch (error) {
       console.error('Unexpected error: ', error);
     }
+
+    setLoading(false);
   };
 
   return (
@@ -104,9 +112,11 @@ export function LoginForm({ className, ...props }: ComponentPropsWithoutRef<'div
                   />
                 </div>
                 <Button
-                  type="submit"
                   className="w-full"
+                  disabled={loading}
+                  type="submit"
                 >
+                  {loading && <Loader className="animate-spin" />}
                   Login
                 </Button>
               </div>
