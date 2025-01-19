@@ -25,7 +25,6 @@ export const App = () => {
     <RouterProvider
       router={router}
       context={{ auth: { user } }}
-      basepath="/financial-tracker-web/"
     />
   );
 };
