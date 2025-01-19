@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from '@tanstack/react-router';
-import { Loader } from 'lucide-react';
+import { Loader, MailCheck, MailWarning } from 'lucide-react';
 import { ComponentPropsWithoutRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -8,6 +8,7 @@ import { supabaseClient } from '@lib/supabase-client';
 import { cn } from '@lib/utils';
 import { RegistrationFormValues, registrationSchema } from '@lib/zod-schemas';
 
+import { Alert, AlertDescription, AlertTitle } from '@ui/alert';
 import { Button } from '@ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@ui/card';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@ui/form';
@@ -16,6 +17,7 @@ import { PasswordInput } from '@ui/password-input';
 
 export function RegistrationForm({ className, ...props }: ComponentPropsWithoutRef<'div'>) {
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<{ error: boolean; title: string; description: string }>();
 
   const form = useForm<RegistrationFormValues>({
     resolver: zodResolver(registrationSchema),
@@ -40,11 +42,30 @@ export function RegistrationForm({ className, ...props }: ComponentPropsWithoutR
 
       if (data) {
         console.log('Data: ', data);
+
+        setResult({
+          error: false,
+          title: 'Almost there!',
+          description:
+            'Please lookout for an email in your inbox, and click the included link to confirm your account.',
+        });
       } else {
         console.error('Error from Supabase', error);
+
+        setResult({
+          error: true,
+          title: 'Error creating an account',
+          description: 'We had trouble creating your user account. Please try again later.',
+        });
       }
     } catch (error) {
       console.error('Unexpected error', error);
+
+      setResult({
+        error: true,
+        title: 'Unexpected error',
+        description: "We're not sure what went wrong. Please try again later. Apologies for the technical error.",
+      });
     }
 
     setLoading(false);
@@ -145,6 +166,14 @@ export function RegistrationForm({ className, ...props }: ComponentPropsWithoutR
           </Form>
         </CardContent>
       </Card>
+
+      {result && (
+        <Alert>
+          {result.error ? <MailWarning className="h-4 w-4 stroke-red-500" /> : <MailCheck className="h-4 w-4" />}
+          <AlertTitle>{result.title}</AlertTitle>
+          <AlertDescription>{result.description}</AlertDescription>
+        </Alert>
+      )}
     </div>
   );
 }
