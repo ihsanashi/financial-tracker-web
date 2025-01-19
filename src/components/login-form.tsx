@@ -22,6 +22,10 @@ export function LoginForm({ className, ...props }: ComponentPropsWithoutRef<'div
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
 
   const handleLogin = async (form: LoginFormValues) => {

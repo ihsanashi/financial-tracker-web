@@ -17,6 +17,9 @@ export function ForgotPasswordForm({ className, ...props }: ComponentPropsWithou
 
   const form = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: {
+      email: '',
+    },
   });
 
   const handleForgotPassword = async (form: ForgotPasswordFormValues) => {

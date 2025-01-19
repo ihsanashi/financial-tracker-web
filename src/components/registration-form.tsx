@@ -19,6 +19,11 @@ export function RegistrationForm({ className, ...props }: ComponentPropsWithoutR
 
   const form = useForm<RegistrationFormValues>({
     resolver: zodResolver(registrationSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
   });
 
   const handleRegistration = async (form: RegistrationFormValues) => {
