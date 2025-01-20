@@ -17,6 +17,7 @@ export const Route = createLazyFileRoute('/(private)/_layout/preferences')({
 function RouteComponent() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { clearSession } = useAuthStore();
 
   async function handleSignOut() {
     setLoading(true);
@@ -27,7 +28,7 @@ function RouteComponent() {
       console.error('Error from Supabase: ', error);
     }
 
-    useAuthStore.getState().clearUser();
+    clearSession();
 
     router.navigate({
       to: '/auth/login',
@@ -38,7 +39,7 @@ function RouteComponent() {
 
   return (
     <MainContainer className="p-4">
-      <div>Hello "/(private)/_layout/preferences"!</div>
+      <div className="text-slate-900 dark:text-slate-100">Hello "/(private)/_layout/preferences"!</div>
 
       <Button
         className="my-4"

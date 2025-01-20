@@ -1,12 +1,10 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router';
 
-import { ForgotPasswordForm } from '@components/forgot-password-form'
+import { ForgotPasswordForm } from '@components/forgot-password-form';
 
-export const Route = createLazyFileRoute(
-  '/(public)/_layout/auth/forgot-password',
-)({
+export const Route = createLazyFileRoute('/(public)/_layout/auth/forgot-password')({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
   return (
@@ -15,5 +13,5 @@ function RouteComponent() {
         <ForgotPasswordForm />
       </div>
     </main>
-  )
+  );
 }

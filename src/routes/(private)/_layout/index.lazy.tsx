@@ -1,11 +1,11 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
-import { useMemo } from 'react'
-import { Cell, Label, Legend, Pie, PieChart } from 'recharts'
+import { createLazyFileRoute } from '@tanstack/react-router';
+import { useMemo } from 'react';
+import { Cell, Label, Legend, Pie, PieChart } from 'recharts';
 
-import { MainContainer } from '@layouts/main-container'
+import { MainContainer } from '@layouts/main-container';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@ui/card'
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@ui/chart'
+import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@ui/chart';
 
 // Sample data for the pie chart
 const chartData = [
@@ -14,7 +14,7 @@ const chartData = [
   { name: 'Real Estate', value: 30000 },
   { name: 'Cash', value: 10000 },
   { name: 'Cryptocurrencies', value: 5000 },
-]
+];
 
 const COLORS = [
   'hsl(var(--chart-1))',
@@ -22,16 +22,16 @@ const COLORS = [
   'hsl(var(--chart-3))',
   'hsl(var(--chart-4))',
   'hsl(var(--chart-5))',
-]
+];
 
 export const Route = createLazyFileRoute('/(private)/_layout/')({
   component: Index,
-})
+});
 
 function Index() {
   const totalVisitors = useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.value, 0)
-  }, [])
+    return chartData.reduce((acc, curr) => acc + curr.value, 0);
+  }, []);
 
   return (
     <MainContainer>
@@ -39,17 +39,12 @@ function Index() {
         {/* Chart */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-stone-900 dark:text-stone-50">
-              Overview
-            </CardTitle>
+            <CardTitle className="text-stone-900 dark:text-stone-50">Overview</CardTitle>
           </CardHeader>
           <CardContent>
             <ChartContainer
               config={Object.fromEntries(
-                chartData.map((entry, index) => [
-                  entry.name.toLowerCase(),
-                  { label: entry.name, color: COLORS[index] },
-                ]),
+                chartData.map((entry, index) => [entry.name.toLowerCase(), { label: entry.name, color: COLORS[index] }])
               )}
               className="mx-auto h-[400px] w-full"
             >
@@ -88,7 +83,7 @@ function Index() {
                               in total
                             </tspan>
                           </text>
-                        )
+                        );
                       }
                     }}
                   />
@@ -131,5 +126,5 @@ function Index() {
         {/* Existing entries */}
       </main>
     </MainContainer>
-  )
+  );
 }

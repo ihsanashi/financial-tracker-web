@@ -1,10 +1,10 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router';
 
-import { RegistrationForm } from '@components/registration-form'
+import { RegistrationForm } from '@components/registration-form';
 
 export const Route = createLazyFileRoute('/(public)/_layout/auth/register')({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
   return (
@@ -13,5 +13,5 @@ function RouteComponent() {
         <RegistrationForm />
       </div>
     </main>
-  )
+  );
 }

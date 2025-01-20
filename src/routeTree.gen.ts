@@ -15,24 +15,36 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as publicLayoutImport } from './routes/(public)/_layout'
 import { Route as privateLayoutImport } from './routes/(private)/_layout'
-import { Route as privateLayoutTransactionsRouteImport } from './routes/(private)/_layout/transactions/route'
-import { Route as privateLayoutPreferencesRouteImport } from './routes/(private)/_layout/preferences/route'
-import { Route as privateLayoutAccountsRouteImport } from './routes/(private)/_layout/accounts/route'
-import { Route as privateLayoutIndexRouteImport } from './routes/(private)/_layout/index/route'
-import { Route as publicLayoutAuthRegisterRouteImport } from './routes/(public)/_layout/auth/register/route'
-import { Route as publicLayoutAuthLoginRouteImport } from './routes/(public)/_layout/auth/login/route'
-import { Route as publicLayoutAuthForgotPasswordRouteImport } from './routes/(public)/_layout/auth/forgot-password/route'
 
 // Create Virtual Routes
 
 const publicImport = createFileRoute('/(public)')()
 const privateImport = createFileRoute('/(private)')()
+const privateLayoutIndexLazyImport = createFileRoute('/(private)/_layout/')()
 const publicLayoutAboutLazyImport = createFileRoute('/(public)/_layout/about')()
-const publicLayoutAuthWelcomeRouteLazyImport = createFileRoute(
+const privateLayoutTransactionsLazyImport = createFileRoute(
+  '/(private)/_layout/transactions',
+)()
+const privateLayoutPreferencesLazyImport = createFileRoute(
+  '/(private)/_layout/preferences',
+)()
+const privateLayoutAccountsLazyImport = createFileRoute(
+  '/(private)/_layout/accounts',
+)()
+const publicLayoutAuthWelcomeLazyImport = createFileRoute(
   '/(public)/_layout/auth/welcome',
 )()
-const publicLayoutAuthResetPasswordRouteLazyImport = createFileRoute(
+const publicLayoutAuthResetPasswordLazyImport = createFileRoute(
   '/(public)/_layout/auth/reset-password',
+)()
+const publicLayoutAuthRegisterLazyImport = createFileRoute(
+  '/(public)/_layout/auth/register',
+)()
+const publicLayoutAuthLoginLazyImport = createFileRoute(
+  '/(public)/_layout/auth/login',
+)()
+const publicLayoutAuthForgotPasswordLazyImport = createFileRoute(
+  '/(public)/_layout/auth/forgot-password',
 )()
 
 // Create/Update Routes
@@ -58,6 +70,16 @@ const privateLayoutRoute = privateLayoutImport.update({
   getParentRoute: () => privateRoute,
 } as any)
 
+const privateLayoutIndexLazyRoute = privateLayoutIndexLazyImport
+  .update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => privateLayoutRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(private)/_layout/index.lazy').then((d) => d.Route),
+  )
+
 const publicLayoutAboutLazyRoute = publicLayoutAboutLazyImport
   .update({
     id: '/about',
@@ -68,111 +90,88 @@ const publicLayoutAboutLazyRoute = publicLayoutAboutLazyImport
     import('./routes/(public)/_layout/about.lazy').then((d) => d.Route),
   )
 
-const privateLayoutTransactionsRouteRoute = privateLayoutTransactionsRouteImport
+const privateLayoutTransactionsLazyRoute = privateLayoutTransactionsLazyImport
   .update({
     id: '/transactions',
     path: '/transactions',
     getParentRoute: () => privateLayoutRoute,
   } as any)
   .lazy(() =>
-    import('./routes/(private)/_layout/transactions/route.lazy').then(
-      (d) => d.Route,
-    ),
+    import('./routes/(private)/_layout/transactions.lazy').then((d) => d.Route),
   )
 
-const privateLayoutPreferencesRouteRoute = privateLayoutPreferencesRouteImport
+const privateLayoutPreferencesLazyRoute = privateLayoutPreferencesLazyImport
   .update({
     id: '/preferences',
     path: '/preferences',
     getParentRoute: () => privateLayoutRoute,
   } as any)
   .lazy(() =>
-    import('./routes/(private)/_layout/preferences/route.lazy').then(
-      (d) => d.Route,
-    ),
+    import('./routes/(private)/_layout/preferences.lazy').then((d) => d.Route),
   )
 
-const privateLayoutAccountsRouteRoute = privateLayoutAccountsRouteImport
+const privateLayoutAccountsLazyRoute = privateLayoutAccountsLazyImport
   .update({
     id: '/accounts',
     path: '/accounts',
     getParentRoute: () => privateLayoutRoute,
   } as any)
   .lazy(() =>
-    import('./routes/(private)/_layout/accounts/route.lazy').then(
-      (d) => d.Route,
-    ),
+    import('./routes/(private)/_layout/accounts.lazy').then((d) => d.Route),
   )
 
-const privateLayoutIndexRouteRoute = privateLayoutIndexRouteImport
+const publicLayoutAuthWelcomeLazyRoute = publicLayoutAuthWelcomeLazyImport
   .update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => privateLayoutRoute,
+    id: '/auth/welcome',
+    path: '/auth/welcome',
+    getParentRoute: () => publicLayoutRoute,
   } as any)
   .lazy(() =>
-    import('./routes/(private)/_layout/index/route.lazy').then((d) => d.Route),
+    import('./routes/(public)/_layout/auth/welcome.lazy').then((d) => d.Route),
   )
 
-const publicLayoutAuthWelcomeRouteLazyRoute =
-  publicLayoutAuthWelcomeRouteLazyImport
-    .update({
-      id: '/auth/welcome',
-      path: '/auth/welcome',
-      getParentRoute: () => publicLayoutRoute,
-    } as any)
-    .lazy(() =>
-      import('./routes/(public)/_layout/auth/welcome/route.lazy').then(
-        (d) => d.Route,
-      ),
-    )
-
-const publicLayoutAuthResetPasswordRouteLazyRoute =
-  publicLayoutAuthResetPasswordRouteLazyImport
+const publicLayoutAuthResetPasswordLazyRoute =
+  publicLayoutAuthResetPasswordLazyImport
     .update({
       id: '/auth/reset-password',
       path: '/auth/reset-password',
       getParentRoute: () => publicLayoutRoute,
     } as any)
     .lazy(() =>
-      import('./routes/(public)/_layout/auth/reset-password/route.lazy').then(
+      import('./routes/(public)/_layout/auth/reset-password.lazy').then(
         (d) => d.Route,
       ),
     )
 
-const publicLayoutAuthRegisterRouteRoute = publicLayoutAuthRegisterRouteImport
+const publicLayoutAuthRegisterLazyRoute = publicLayoutAuthRegisterLazyImport
   .update({
     id: '/auth/register',
     path: '/auth/register',
     getParentRoute: () => publicLayoutRoute,
   } as any)
   .lazy(() =>
-    import('./routes/(public)/_layout/auth/register/route.lazy').then(
-      (d) => d.Route,
-    ),
+    import('./routes/(public)/_layout/auth/register.lazy').then((d) => d.Route),
   )
 
-const publicLayoutAuthLoginRouteRoute = publicLayoutAuthLoginRouteImport
+const publicLayoutAuthLoginLazyRoute = publicLayoutAuthLoginLazyImport
   .update({
     id: '/auth/login',
     path: '/auth/login',
     getParentRoute: () => publicLayoutRoute,
   } as any)
   .lazy(() =>
-    import('./routes/(public)/_layout/auth/login/route.lazy').then(
-      (d) => d.Route,
-    ),
+    import('./routes/(public)/_layout/auth/login.lazy').then((d) => d.Route),
   )
 
-const publicLayoutAuthForgotPasswordRouteRoute =
-  publicLayoutAuthForgotPasswordRouteImport
+const publicLayoutAuthForgotPasswordLazyRoute =
+  publicLayoutAuthForgotPasswordLazyImport
     .update({
       id: '/auth/forgot-password',
       path: '/auth/forgot-password',
       getParentRoute: () => publicLayoutRoute,
     } as any)
     .lazy(() =>
-      import('./routes/(public)/_layout/auth/forgot-password/route.lazy').then(
+      import('./routes/(public)/_layout/auth/forgot-password.lazy').then(
         (d) => d.Route,
       ),
     )
@@ -209,32 +208,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof publicLayoutImport
       parentRoute: typeof publicRoute
     }
-    '/(private)/_layout/': {
-      id: '/(private)/_layout/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof privateLayoutIndexRouteImport
-      parentRoute: typeof privateLayoutImport
-    }
     '/(private)/_layout/accounts': {
       id: '/(private)/_layout/accounts'
       path: '/accounts'
       fullPath: '/accounts'
-      preLoaderRoute: typeof privateLayoutAccountsRouteImport
+      preLoaderRoute: typeof privateLayoutAccountsLazyImport
       parentRoute: typeof privateLayoutImport
     }
     '/(private)/_layout/preferences': {
       id: '/(private)/_layout/preferences'
       path: '/preferences'
       fullPath: '/preferences'
-      preLoaderRoute: typeof privateLayoutPreferencesRouteImport
+      preLoaderRoute: typeof privateLayoutPreferencesLazyImport
       parentRoute: typeof privateLayoutImport
     }
     '/(private)/_layout/transactions': {
       id: '/(private)/_layout/transactions'
       path: '/transactions'
       fullPath: '/transactions'
-      preLoaderRoute: typeof privateLayoutTransactionsRouteImport
+      preLoaderRoute: typeof privateLayoutTransactionsLazyImport
       parentRoute: typeof privateLayoutImport
     }
     '/(public)/_layout/about': {
@@ -244,39 +236,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof publicLayoutAboutLazyImport
       parentRoute: typeof publicLayoutImport
     }
+    '/(private)/_layout/': {
+      id: '/(private)/_layout/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof privateLayoutIndexLazyImport
+      parentRoute: typeof privateLayoutImport
+    }
     '/(public)/_layout/auth/forgot-password': {
       id: '/(public)/_layout/auth/forgot-password'
       path: '/auth/forgot-password'
       fullPath: '/auth/forgot-password'
-      preLoaderRoute: typeof publicLayoutAuthForgotPasswordRouteImport
+      preLoaderRoute: typeof publicLayoutAuthForgotPasswordLazyImport
       parentRoute: typeof publicLayoutImport
     }
     '/(public)/_layout/auth/login': {
       id: '/(public)/_layout/auth/login'
       path: '/auth/login'
       fullPath: '/auth/login'
-      preLoaderRoute: typeof publicLayoutAuthLoginRouteImport
+      preLoaderRoute: typeof publicLayoutAuthLoginLazyImport
       parentRoute: typeof publicLayoutImport
     }
     '/(public)/_layout/auth/register': {
       id: '/(public)/_layout/auth/register'
       path: '/auth/register'
       fullPath: '/auth/register'
-      preLoaderRoute: typeof publicLayoutAuthRegisterRouteImport
+      preLoaderRoute: typeof publicLayoutAuthRegisterLazyImport
       parentRoute: typeof publicLayoutImport
     }
     '/(public)/_layout/auth/reset-password': {
       id: '/(public)/_layout/auth/reset-password'
       path: '/auth/reset-password'
       fullPath: '/auth/reset-password'
-      preLoaderRoute: typeof publicLayoutAuthResetPasswordRouteLazyImport
+      preLoaderRoute: typeof publicLayoutAuthResetPasswordLazyImport
       parentRoute: typeof publicLayoutImport
     }
     '/(public)/_layout/auth/welcome': {
       id: '/(public)/_layout/auth/welcome'
       path: '/auth/welcome'
       fullPath: '/auth/welcome'
-      preLoaderRoute: typeof publicLayoutAuthWelcomeRouteLazyImport
+      preLoaderRoute: typeof publicLayoutAuthWelcomeLazyImport
       parentRoute: typeof publicLayoutImport
     }
   }
@@ -285,17 +284,17 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface privateLayoutRouteChildren {
-  privateLayoutIndexRouteRoute: typeof privateLayoutIndexRouteRoute
-  privateLayoutAccountsRouteRoute: typeof privateLayoutAccountsRouteRoute
-  privateLayoutPreferencesRouteRoute: typeof privateLayoutPreferencesRouteRoute
-  privateLayoutTransactionsRouteRoute: typeof privateLayoutTransactionsRouteRoute
+  privateLayoutAccountsLazyRoute: typeof privateLayoutAccountsLazyRoute
+  privateLayoutPreferencesLazyRoute: typeof privateLayoutPreferencesLazyRoute
+  privateLayoutTransactionsLazyRoute: typeof privateLayoutTransactionsLazyRoute
+  privateLayoutIndexLazyRoute: typeof privateLayoutIndexLazyRoute
 }
 
 const privateLayoutRouteChildren: privateLayoutRouteChildren = {
-  privateLayoutIndexRouteRoute: privateLayoutIndexRouteRoute,
-  privateLayoutAccountsRouteRoute: privateLayoutAccountsRouteRoute,
-  privateLayoutPreferencesRouteRoute: privateLayoutPreferencesRouteRoute,
-  privateLayoutTransactionsRouteRoute: privateLayoutTransactionsRouteRoute,
+  privateLayoutAccountsLazyRoute: privateLayoutAccountsLazyRoute,
+  privateLayoutPreferencesLazyRoute: privateLayoutPreferencesLazyRoute,
+  privateLayoutTransactionsLazyRoute: privateLayoutTransactionsLazyRoute,
+  privateLayoutIndexLazyRoute: privateLayoutIndexLazyRoute,
 }
 
 const privateLayoutRouteWithChildren = privateLayoutRoute._addFileChildren(
@@ -315,22 +314,22 @@ const privateRouteWithChildren =
 
 interface publicLayoutRouteChildren {
   publicLayoutAboutLazyRoute: typeof publicLayoutAboutLazyRoute
-  publicLayoutAuthForgotPasswordRouteRoute: typeof publicLayoutAuthForgotPasswordRouteRoute
-  publicLayoutAuthLoginRouteRoute: typeof publicLayoutAuthLoginRouteRoute
-  publicLayoutAuthRegisterRouteRoute: typeof publicLayoutAuthRegisterRouteRoute
-  publicLayoutAuthResetPasswordRouteLazyRoute: typeof publicLayoutAuthResetPasswordRouteLazyRoute
-  publicLayoutAuthWelcomeRouteLazyRoute: typeof publicLayoutAuthWelcomeRouteLazyRoute
+  publicLayoutAuthForgotPasswordLazyRoute: typeof publicLayoutAuthForgotPasswordLazyRoute
+  publicLayoutAuthLoginLazyRoute: typeof publicLayoutAuthLoginLazyRoute
+  publicLayoutAuthRegisterLazyRoute: typeof publicLayoutAuthRegisterLazyRoute
+  publicLayoutAuthResetPasswordLazyRoute: typeof publicLayoutAuthResetPasswordLazyRoute
+  publicLayoutAuthWelcomeLazyRoute: typeof publicLayoutAuthWelcomeLazyRoute
 }
 
 const publicLayoutRouteChildren: publicLayoutRouteChildren = {
   publicLayoutAboutLazyRoute: publicLayoutAboutLazyRoute,
-  publicLayoutAuthForgotPasswordRouteRoute:
-    publicLayoutAuthForgotPasswordRouteRoute,
-  publicLayoutAuthLoginRouteRoute: publicLayoutAuthLoginRouteRoute,
-  publicLayoutAuthRegisterRouteRoute: publicLayoutAuthRegisterRouteRoute,
-  publicLayoutAuthResetPasswordRouteLazyRoute:
-    publicLayoutAuthResetPasswordRouteLazyRoute,
-  publicLayoutAuthWelcomeRouteLazyRoute: publicLayoutAuthWelcomeRouteLazyRoute,
+  publicLayoutAuthForgotPasswordLazyRoute:
+    publicLayoutAuthForgotPasswordLazyRoute,
+  publicLayoutAuthLoginLazyRoute: publicLayoutAuthLoginLazyRoute,
+  publicLayoutAuthRegisterLazyRoute: publicLayoutAuthRegisterLazyRoute,
+  publicLayoutAuthResetPasswordLazyRoute:
+    publicLayoutAuthResetPasswordLazyRoute,
+  publicLayoutAuthWelcomeLazyRoute: publicLayoutAuthWelcomeLazyRoute,
 }
 
 const publicLayoutRouteWithChildren = publicLayoutRoute._addFileChildren(
@@ -349,29 +348,29 @@ const publicRouteWithChildren =
   publicRoute._addFileChildren(publicRouteChildren)
 
 export interface FileRoutesByFullPath {
-  '/': typeof privateLayoutIndexRouteRoute
-  '/accounts': typeof privateLayoutAccountsRouteRoute
-  '/preferences': typeof privateLayoutPreferencesRouteRoute
-  '/transactions': typeof privateLayoutTransactionsRouteRoute
+  '/': typeof privateLayoutIndexLazyRoute
+  '/accounts': typeof privateLayoutAccountsLazyRoute
+  '/preferences': typeof privateLayoutPreferencesLazyRoute
+  '/transactions': typeof privateLayoutTransactionsLazyRoute
   '/about': typeof publicLayoutAboutLazyRoute
-  '/auth/forgot-password': typeof publicLayoutAuthForgotPasswordRouteRoute
-  '/auth/login': typeof publicLayoutAuthLoginRouteRoute
-  '/auth/register': typeof publicLayoutAuthRegisterRouteRoute
-  '/auth/reset-password': typeof publicLayoutAuthResetPasswordRouteLazyRoute
-  '/auth/welcome': typeof publicLayoutAuthWelcomeRouteLazyRoute
+  '/auth/forgot-password': typeof publicLayoutAuthForgotPasswordLazyRoute
+  '/auth/login': typeof publicLayoutAuthLoginLazyRoute
+  '/auth/register': typeof publicLayoutAuthRegisterLazyRoute
+  '/auth/reset-password': typeof publicLayoutAuthResetPasswordLazyRoute
+  '/auth/welcome': typeof publicLayoutAuthWelcomeLazyRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof privateLayoutIndexRouteRoute
-  '/accounts': typeof privateLayoutAccountsRouteRoute
-  '/preferences': typeof privateLayoutPreferencesRouteRoute
-  '/transactions': typeof privateLayoutTransactionsRouteRoute
+  '/': typeof privateLayoutIndexLazyRoute
+  '/accounts': typeof privateLayoutAccountsLazyRoute
+  '/preferences': typeof privateLayoutPreferencesLazyRoute
+  '/transactions': typeof privateLayoutTransactionsLazyRoute
   '/about': typeof publicLayoutAboutLazyRoute
-  '/auth/forgot-password': typeof publicLayoutAuthForgotPasswordRouteRoute
-  '/auth/login': typeof publicLayoutAuthLoginRouteRoute
-  '/auth/register': typeof publicLayoutAuthRegisterRouteRoute
-  '/auth/reset-password': typeof publicLayoutAuthResetPasswordRouteLazyRoute
-  '/auth/welcome': typeof publicLayoutAuthWelcomeRouteLazyRoute
+  '/auth/forgot-password': typeof publicLayoutAuthForgotPasswordLazyRoute
+  '/auth/login': typeof publicLayoutAuthLoginLazyRoute
+  '/auth/register': typeof publicLayoutAuthRegisterLazyRoute
+  '/auth/reset-password': typeof publicLayoutAuthResetPasswordLazyRoute
+  '/auth/welcome': typeof publicLayoutAuthWelcomeLazyRoute
 }
 
 export interface FileRoutesById {
@@ -380,16 +379,16 @@ export interface FileRoutesById {
   '/(private)/_layout': typeof privateLayoutRouteWithChildren
   '/(public)': typeof publicRouteWithChildren
   '/(public)/_layout': typeof publicLayoutRouteWithChildren
-  '/(private)/_layout/': typeof privateLayoutIndexRouteRoute
-  '/(private)/_layout/accounts': typeof privateLayoutAccountsRouteRoute
-  '/(private)/_layout/preferences': typeof privateLayoutPreferencesRouteRoute
-  '/(private)/_layout/transactions': typeof privateLayoutTransactionsRouteRoute
+  '/(private)/_layout/accounts': typeof privateLayoutAccountsLazyRoute
+  '/(private)/_layout/preferences': typeof privateLayoutPreferencesLazyRoute
+  '/(private)/_layout/transactions': typeof privateLayoutTransactionsLazyRoute
   '/(public)/_layout/about': typeof publicLayoutAboutLazyRoute
-  '/(public)/_layout/auth/forgot-password': typeof publicLayoutAuthForgotPasswordRouteRoute
-  '/(public)/_layout/auth/login': typeof publicLayoutAuthLoginRouteRoute
-  '/(public)/_layout/auth/register': typeof publicLayoutAuthRegisterRouteRoute
-  '/(public)/_layout/auth/reset-password': typeof publicLayoutAuthResetPasswordRouteLazyRoute
-  '/(public)/_layout/auth/welcome': typeof publicLayoutAuthWelcomeRouteLazyRoute
+  '/(private)/_layout/': typeof privateLayoutIndexLazyRoute
+  '/(public)/_layout/auth/forgot-password': typeof publicLayoutAuthForgotPasswordLazyRoute
+  '/(public)/_layout/auth/login': typeof publicLayoutAuthLoginLazyRoute
+  '/(public)/_layout/auth/register': typeof publicLayoutAuthRegisterLazyRoute
+  '/(public)/_layout/auth/reset-password': typeof publicLayoutAuthResetPasswordLazyRoute
+  '/(public)/_layout/auth/welcome': typeof publicLayoutAuthWelcomeLazyRoute
 }
 
 export interface FileRouteTypes {
@@ -423,11 +422,11 @@ export interface FileRouteTypes {
     | '/(private)/_layout'
     | '/(public)'
     | '/(public)/_layout'
-    | '/(private)/_layout/'
     | '/(private)/_layout/accounts'
     | '/(private)/_layout/preferences'
     | '/(private)/_layout/transactions'
     | '/(public)/_layout/about'
+    | '/(private)/_layout/'
     | '/(public)/_layout/auth/forgot-password'
     | '/(public)/_layout/auth/login'
     | '/(public)/_layout/auth/register'
@@ -470,10 +469,10 @@ export const routeTree = rootRoute
       "filePath": "(private)/_layout.tsx",
       "parent": "/(private)",
       "children": [
-        "/(private)/_layout/",
         "/(private)/_layout/accounts",
         "/(private)/_layout/preferences",
-        "/(private)/_layout/transactions"
+        "/(private)/_layout/transactions",
+        "/(private)/_layout/"
       ]
     },
     "/(public)": {
@@ -494,44 +493,44 @@ export const routeTree = rootRoute
         "/(public)/_layout/auth/welcome"
       ]
     },
-    "/(private)/_layout/": {
-      "filePath": "(private)/_layout/index/route.tsx",
-      "parent": "/(private)/_layout"
-    },
     "/(private)/_layout/accounts": {
-      "filePath": "(private)/_layout/accounts/route.tsx",
+      "filePath": "(private)/_layout/accounts.lazy.tsx",
       "parent": "/(private)/_layout"
     },
     "/(private)/_layout/preferences": {
-      "filePath": "(private)/_layout/preferences/route.tsx",
+      "filePath": "(private)/_layout/preferences.lazy.tsx",
       "parent": "/(private)/_layout"
     },
     "/(private)/_layout/transactions": {
-      "filePath": "(private)/_layout/transactions/route.tsx",
+      "filePath": "(private)/_layout/transactions.lazy.tsx",
       "parent": "/(private)/_layout"
     },
     "/(public)/_layout/about": {
       "filePath": "(public)/_layout/about.lazy.tsx",
       "parent": "/(public)/_layout"
     },
+    "/(private)/_layout/": {
+      "filePath": "(private)/_layout/index.lazy.tsx",
+      "parent": "/(private)/_layout"
+    },
     "/(public)/_layout/auth/forgot-password": {
-      "filePath": "(public)/_layout/auth/forgot-password/route.tsx",
+      "filePath": "(public)/_layout/auth/forgot-password.lazy.tsx",
       "parent": "/(public)/_layout"
     },
     "/(public)/_layout/auth/login": {
-      "filePath": "(public)/_layout/auth/login/route.tsx",
+      "filePath": "(public)/_layout/auth/login.lazy.tsx",
       "parent": "/(public)/_layout"
     },
     "/(public)/_layout/auth/register": {
-      "filePath": "(public)/_layout/auth/register/route.tsx",
+      "filePath": "(public)/_layout/auth/register.lazy.tsx",
       "parent": "/(public)/_layout"
     },
     "/(public)/_layout/auth/reset-password": {
-      "filePath": "(public)/_layout/auth/reset-password/route.lazy.tsx",
+      "filePath": "(public)/_layout/auth/reset-password.lazy.tsx",
       "parent": "/(public)/_layout"
     },
     "/(public)/_layout/auth/welcome": {
-      "filePath": "(public)/_layout/auth/welcome/route.lazy.tsx",
+      "filePath": "(public)/_layout/auth/welcome.lazy.tsx",
       "parent": "/(public)/_layout"
     }
   }
