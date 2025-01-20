@@ -20,6 +20,8 @@ export function LoginForm({ className, ...props }: ComponentPropsWithoutRef<'div
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
+  const { setSession } = useAuthStore();
+
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -37,17 +39,18 @@ export function LoginForm({ className, ...props }: ComponentPropsWithoutRef<'div
         password: form.password,
       });
 
-      if (data) {
+      if (error) {
+        console.error('Error from Supabase', error);
+      }
+
+      if (data.session) {
         console.log('Data:', data);
 
-        useAuthStore.getState().setSession(data.session);
-        useAuthStore.getState().setUser(data.user);
+        setSession(data.session);
 
         router.navigate({
           to: '/',
         });
-      } else {
-        console.error('Error from Supabase', error);
       }
     } catch (error) {
       console.error('Unexpected error: ', error);
