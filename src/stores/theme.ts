@@ -16,7 +16,7 @@ export const useThemeStore = create(
         })),
     }),
     {
-      name: 'theme',
+      name: `${import.meta.env.VITE_BASE_LOCAL_STORAGE_KEY}-theme`,
     }
   )
 );

@@ -24,7 +24,7 @@ const COLORS = [
   'hsl(var(--chart-5))',
 ];
 
-export const Route = createLazyFileRoute('/')({
+export const Route = createLazyFileRoute('/(private)/_layout/')({
   component: Index,
 });
 
@@ -49,16 +49,37 @@ function Index() {
               className="mx-auto h-[400px] w-full"
             >
               <PieChart>
-                <Pie data={chartData} cx="50%" cy="50%" innerRadius={80} strokeWidth={5} fill="#8884d8" dataKey="value">
+                <Pie
+                  data={chartData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={80}
+                  strokeWidth={5}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
                   <Label
                     content={({ viewBox }) => {
                       if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
                         return (
-                          <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle" dominantBaseline="middle">
-                            <tspan x={viewBox.cx} y={viewBox.cy} className="fill-foreground text-3xl font-bold">
+                          <text
+                            x={viewBox.cx}
+                            y={viewBox.cy}
+                            textAnchor="middle"
+                            dominantBaseline="middle"
+                          >
+                            <tspan
+                              x={viewBox.cx}
+                              y={viewBox.cy}
+                              className="fill-foreground text-3xl font-bold"
+                            >
                               ${totalVisitors.toLocaleString()}
                             </tspan>
-                            <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 24} className="fill-muted-foreground">
+                            <tspan
+                              x={viewBox.cx}
+                              y={(viewBox.cy || 0) + 24}
+                              className="fill-muted-foreground"
+                            >
                               in total
                             </tspan>
                           </text>
@@ -67,7 +88,10 @@ function Index() {
                     }}
                   />
                   {chartData.map((_entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
                   ))}
                 </Pie>
                 <ChartTooltip content={<ChartTooltipContent />} />
@@ -86,7 +110,10 @@ function Index() {
           <CardContent>
             <div className="space-y-4">
               {chartData.map((entry, index) => (
-                <div key={index} className="flex items-center justify-between rounded-lg bg-gray-50 p-4">
+                <div
+                  key={index}
+                  className="flex items-center justify-between rounded-lg bg-gray-50 p-4"
+                >
                   <div>
                     <h3 className="font-semibold">{entry.name}</h3>
                   </div>

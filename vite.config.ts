@@ -5,7 +5,7 @@ import { defineConfig } from 'vite';
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/financial-tracker-web/',
+  base: './',
   plugins: [react(), TanStackRouterVite()],
   resolve: {
     alias: {

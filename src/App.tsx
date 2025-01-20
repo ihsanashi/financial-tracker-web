@@ -1,12 +1,9 @@
-import { RouterProvider, createRouter } from '@tanstack/react-router';
+import { router } from '@/router';
+import { RouterProvider } from '@tanstack/react-router';
 import { useEffect } from 'react';
 
+import { useAuthStore } from '@stores/auth';
 import { useThemeStore } from '@stores/theme';
-
-import { routeTree } from './routeTree.gen';
-
-// Create a new router instance
-const router = createRouter({ routeTree });
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {
@@ -17,11 +14,21 @@ declare module '@tanstack/react-router' {
 
 export const App = () => {
   const { theme } = useThemeStore();
+  const { session } = useAuthStore();
 
   useEffect(() => {
     document.documentElement.classList.remove('light', 'dark');
     document.documentElement.classList.add(theme);
   }, [theme]);
 
-  return <RouterProvider router={router} basepath="/financial-tracker-web/" />;
+  return (
+    <RouterProvider
+      router={router}
+      context={{
+        auth: {
+          session,
+        },
+      }}
+    />
+  );
 };

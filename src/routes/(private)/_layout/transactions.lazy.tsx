@@ -2,7 +2,7 @@ import { createLazyFileRoute } from '@tanstack/react-router';
 
 import { MainContainer } from '@layouts/main-container';
 
-export const Route = createLazyFileRoute('/transactions')({
+export const Route = createLazyFileRoute('/(private)/_layout/transactions')({
   component: RouteComponent,
 });
 
