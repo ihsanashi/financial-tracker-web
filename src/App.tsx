@@ -14,7 +14,7 @@ declare module '@tanstack/react-router' {
 
 export const App = () => {
   const { theme } = useThemeStore();
-  const { user } = useAuthStore();
+  const { session } = useAuthStore();
 
   useEffect(() => {
     document.documentElement.classList.remove('light', 'dark');
@@ -24,7 +24,11 @@ export const App = () => {
   return (
     <RouterProvider
       router={router}
-      context={{ auth: { user } }}
+      context={{
+        auth: {
+          session,
+        },
+      }}
     />
   );
 };
