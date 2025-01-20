@@ -18,6 +18,9 @@ import { PasswordInput } from '@ui/password-input';
 
 export function LoginForm({ className, ...props }: ComponentPropsWithoutRef<'div'>) {
   const router = useRouter();
+  const searchParams = new URLSearchParams(router.__store.state.location.search);
+  const redirectTo = searchParams.get('redirect') || '/';
+
   const [loading, setLoading] = useState(false);
 
   const { setSession } = useAuthStore();
@@ -48,9 +51,7 @@ export function LoginForm({ className, ...props }: ComponentPropsWithoutRef<'div
 
         setSession(data.session);
 
-        router.navigate({
-          to: '/',
-        });
+        router.history.push(redirectTo);
       }
     } catch (error) {
       console.error('Unexpected error: ', error);
