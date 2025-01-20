@@ -11,7 +11,7 @@ export const Route = createFileRoute('/(public)/_layout')({
 
     if (session) {
       throw redirect({
-        to: '/', // redirect to previously accessed route or homepage
+        to: '/',
       });
     }
   },
